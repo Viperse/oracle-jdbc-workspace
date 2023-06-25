@@ -41,7 +41,7 @@ JOIN TB_DEPARTMENT USING(DEPARTMENT_NO);
 -- 8. 과목별 교수 이름을 찾으려고 한다. 과목 이름과 교수 이름을 출력하는 SQL 문을 작성하시오
 SELECT CLASS_NAME, PROFESSOR_NAME
 FROM TB_CLASS
-JOIN TB_PROFESSOR USING(DEPARTMENT_NO);
+JOIN TB_PROFESSOR USING(DEPARTMENT_NO) JOIN TB_CLASS_PROFESSOR USING(CLASS_NO);
 
 -- 9. ‘음악학과’ 학생들의 평점을 구하려고 한다. 음악학과 학생들의 “학번”, “학생 이름”, “전체 평점”을 출력하는 SQL 문장을 작성하시오. 단, 평점은 소수점 1자리까지만 반올림하여 표시한다
 SELECT STUDENT_NO 학번, STUDENT_NAME "학생 이름", ROUND(AVG(POINT),1) "전체 평점"
@@ -61,16 +61,14 @@ WHERE STUDENT_NO = 'A313047';
 -- 11. 2007년도에 ‘인간관계론’ 과목을 수강한 학생을 찾아 학생이름과 수강학기를 표시하는 SQL 문장을 작성하시오.
 SELECT STUDENT_NAME, TERM_NO
 FROM TB_STUDENT
-JOIN TB_GRADE USING(STUDENT_NO) JOIN TB_CLASS USING(DEPARTMENT_NO)
+JOIN TB_GRADE USING(STUDENT_NO) JOIN TB_CLASS USING(CLASS_NO)
 WHERE TERM_NO LIKE '2007%' AND CLASS_NAME = '인간관계론';
 
 -- 12. 예체능 계열 과목 중 과목 담당교수를 한 명도 배정받지 못한 과목을 찾아 그 과목 이름과 학과 이름을 출력하는 SQL 문장을 작성하시오.
 SELECT CLASS_NAME, DEPARTMENT_NAME
 FROM TB_CLASS
 LEFT JOIN TB_DEPARTMENT USING(DEPARTMENT_NO) LEFT JOIN TB_CLASS_PROFESSOR USING(CLASS_NO)
-WHERE CATEGORY = '예체능'
-GROUP BY CLASS_NAME, DEPARTMENT_NAME, PROFESSOR_NO
-HAVING PROFESSOR_NO IS NULL;
+WHERE CATEGORY = '예체능' AND PROFESSOR_NO IS NULL;
 
 -- 13. 춘 기술대학교 서반아어학과 학생들의 지도교수를 게시하고자 한다. 학생이름과 지도교수 이름을 찾고 만일 지도 교수가 없는 학생일 경우 “지도교수 미지정”으로 표시하도록 하는 SQL 문을
 --     작성하시오. 단, 출력헤더는 “학생이름”, “지도교수” 로 표시하며 고학번 학생이 먼저 표시되도록 한다.
