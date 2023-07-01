@@ -138,37 +138,48 @@ public class PersonTest {
 				
 				System.out.println(id + " / " + name + " / " + address);
 				
-				closeAll(conn, st);
-				
 			}
 			
+			closeAll(conn, st);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}	
+		}
+		
+		
 	}
 	
-//	public void viewPerson(int id) {
-//		PersonTest pt = new PersonTest();
-//		
-//		String query = p.getProperty("jdbc.sql.select2");
-//		PreparedStatement st = pt.getConnect().prepareStatement(query);				
-//		
-//		ResultSet rs = st.executeQuery();
-//		st.setInt(1, id);
-//	
-//		while(rs.next()) {
-//			
-//			
-//			String name = rs.getString("name");
-//			String address = rs.getString("address");
-//			
-//			System.out.println(id + " / " + name + " / " + address);
-//			
-//		}
+	public void viewPerson(int id) {
+		
+		try {
+			
+			Connection conn = getConnect();
+			
+			String query = p.getProperty("jdbc.sql.select2");
+			PreparedStatement st = conn.prepareStatement(query);
+
+			st.setInt(1, id);			
+			st.executeUpdate();
+			
+			ResultSet rs = st.executeQuery();
+			
+			String name = rs.getString("name");
+			String address = rs.getString("address");
+			
+			System.out.println(id +  " / " + name + " / " + address);
+			
+			closeAll(conn, st);
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}				
+		
+		
+		
 
 
-//	}
+	}
 
 	public static void main(String[] args) {
 		
