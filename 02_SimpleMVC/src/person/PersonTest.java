@@ -140,7 +140,7 @@ public class PersonTest {
 				
 			}
 			
-			closeAll(conn, st);
+			closeAll(conn, st, rs);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -158,17 +158,18 @@ public class PersonTest {
 			String query = p.getProperty("jdbc.sql.select2");
 			PreparedStatement st = conn.prepareStatement(query);
 
-			st.setInt(1, id);			
-			st.executeUpdate();
+			st.setInt(1, id);		
 			
 			ResultSet rs = st.executeQuery();
 			
-			String name = rs.getString("name");
-			String address = rs.getString("address");
+			while(rs.next()) {
+				String name = rs.getString("name");
+				String address = rs.getString("address");
+				
+				System.out.println(id +  " / " + name + " / " + address);
+			}
 			
-			System.out.println(id +  " / " + name + " / " + address);
-			
-			closeAll(conn, st);
+			closeAll(conn, st, rs);
 			
 			
 		} catch (SQLException e) {
@@ -193,15 +194,16 @@ public class PersonTest {
 			
 //			pt.searchAllPerson();
 			
-//			pt.removePerson(15); // 강태주 삭제
+//			pt.removePerson(3); // 강태주 삭제
 //			
-//			pt.searchAllPerson();
-			
-			pt.updatePerson(13, "제주도");
-			
 			pt.searchAllPerson();
 			
-//			pt.viewPerson(1);
+//			pt.updatePerson(3, "제주도");
+			
+//			pt.searchAllPerson();
+			
+//			pt.viewPerson(13);
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
