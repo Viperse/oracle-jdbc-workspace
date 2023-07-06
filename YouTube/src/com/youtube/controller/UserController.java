@@ -1,6 +1,6 @@
 package com.youtube.controller;
 
-import com.youtube.model.User;
+import com.youtube.model.vo.User;
 
 public class UserController {
 

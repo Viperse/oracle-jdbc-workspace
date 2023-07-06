@@ -3,7 +3,7 @@ package com.youtube.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.youtube.model.Comment;
+import com.youtube.model.vo.Comment;
 
 // 개인 과제는! 이 방식~~
 public class CommentController {

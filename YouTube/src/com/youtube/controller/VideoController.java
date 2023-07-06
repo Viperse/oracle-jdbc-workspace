@@ -2,7 +2,7 @@ package com.youtube.controller;
 
 import java.util.ArrayList;
 
-import com.youtube.model.Video;
+import com.youtube.model.vo.Video;
 
 public class VideoController {
 	

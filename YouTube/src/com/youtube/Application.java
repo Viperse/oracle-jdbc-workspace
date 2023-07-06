@@ -1,7 +1,7 @@
 package com.youtube;
 
 import com.youtube.controller.CommentController;
-import com.youtube.model.Comment;
+import com.youtube.model.vo.Comment;
 
 public class Application {
 

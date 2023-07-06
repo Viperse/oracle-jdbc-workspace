@@ -62,7 +62,9 @@ public class BookDAO implements BookDAOTemplate{
 		while(rs.next()) {
 			
 			bookList.add(new Book(rs.getInt("bk_no"), rs.getString("bk_title"), rs.getString("bk_author")));
-		}	
+		}
+		
+		closeAll(rs, st, conn);
 		
 		return bookList;
 	}

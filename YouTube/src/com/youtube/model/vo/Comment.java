@@ -1,4 +1,4 @@
-package com.youtube.model;
+package com.youtube.model.vo;
 
 public class Comment {
 

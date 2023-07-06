@@ -1,6 +1,6 @@
 package com.youtube.impl;
 
-import com.youtube.model.Comment;
+import com.youtube.model.vo.Comment;
 
 // 팀 과제는 이 방식!
 public interface CommentImpl {

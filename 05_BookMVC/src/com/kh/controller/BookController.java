@@ -24,10 +24,9 @@ public class BookController {
 	
 	public boolean registerBook(Book book) {
 		try {
-			if(dao.registerBook(book) != 0) {
-				dao.registerBook(book);
-				return true;
-			}					
+			dao.registerBook(book);
+			return true;
+								
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -36,10 +35,9 @@ public class BookController {
 	
 	public boolean sellBook(int no) {
 		try {
-			if(dao.sellBook(no) != 0) {
-				dao.sellBook(no);
-				return true;
-			}			
+			dao.sellBook(no);
+			return true;
+						
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -48,10 +46,8 @@ public class BookController {
 	
 	public boolean registerMember(Member member) {
 		try {
-			if(dao.registerMember(member) != 0) {
-				dao.registerMember(member);
-				return true;
-			}			
+			dao.registerMember(member);
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -72,10 +68,8 @@ public class BookController {
 	
 	public boolean deleteMember() {
 		try {
-			if(dao.deleteMember(member.getMemberId(), member.getMemberPwd()) != 0) {
-				dao.deleteMember(member.getMemberId(), member.getMemberPwd());
-				return true;
-			}
+			dao.deleteMember(member.getMemberId(), member.getMemberPwd());
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -90,10 +84,8 @@ public class BookController {
 			book.setBkNo(no);
 			rent.setBook(book);
 			rent.setMember(member);
-			if(dao.rentBook(rent) != 0) {
-				dao.rentBook(rent);
-				return true;
-			}
+			dao.rentBook(rent);
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -103,10 +95,8 @@ public class BookController {
 	public boolean deleteRent(int no) {
 		
 		try {
-			if(dao.deleteRent(no) != 0) {
-				dao.deleteRent(no);
-				return true;
-			}
+			dao.deleteRent(no);
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

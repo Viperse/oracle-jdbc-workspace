@@ -1,4 +1,4 @@
-package com.youtube.model;
+package com.youtube.model.vo;
 
 import java.util.List;
 
