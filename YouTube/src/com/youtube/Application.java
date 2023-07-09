@@ -5,7 +5,9 @@ import java.util.Scanner;
 import com.youtube.controller.YouTubeController;
 import com.youtube.model.vo.Category;
 import com.youtube.model.vo.Channel;
+import com.youtube.model.vo.CommentLike;
 import com.youtube.model.vo.Member;
+import com.youtube.model.vo.Subscribe;
 import com.youtube.model.vo.Video;
 
 public class Application {
@@ -18,7 +20,15 @@ public class Application {
 //		app.register();
 //		app.login();
 //		app.addChannel();
-		app.addVideo();
+//		app.addVideo();
+//		app.videoAllList();
+//		app.channelVideoList();
+//		app.viewVideo();
+//		app.updateVideo();
+//		app.deleteVideo();
+		app.mySubscribeList();
+//		app.addSubscribe();
+		
 	}
 	
 	public void register() {
@@ -81,7 +91,6 @@ public class Application {
 	
 	// 비디오 추가
 	public void addVideo() {
-		categoryList();
 		yc.login("user1", "1234");
 		System.out.print("비디오 제목 : ");
 		String title = sc.nextLine();
@@ -89,6 +98,7 @@ public class Application {
 		String url = sc.nextLine();
 		System.out.print("비디오 썸네일 : ");
 		String image = sc.nextLine();
+		categoryList();
 		for(Category category : yc.categoryList()) {
 			System.out.println(category);
 		}
@@ -107,10 +117,91 @@ public class Application {
 		} else System.out.println("비디오 추가 실패");
 	}
 	
+	// 카테고리 보기
 	public void categoryList() {
 		for(Category category : yc.categoryList()) {
 			System.out.println(category);
 		}
 	}
+	
+	// 비디오 수정
+	public void updateVideo() {
+		channelVideoList();
+		System.out.print("수정할 비디오 고르기 : ");
+		int videoCode = Integer.parseInt(sc.nextLine());
+		System.out.print("수정할 비디오 제목 : ");
+		String videoTitle = sc.nextLine();
+		Video video = new Video();
+		video.setVideoCode(videoCode);
+		video.setVideoTitle(videoTitle);
+		
+		if(yc.updateVideo(video)) {
+			System.out.println("수정했습니다!");
+			System.out.println(yc.viewVideo(videoCode));
+		} else System.out.println("수정 실패했습니다...");
+		
+	}
+	
+	// 비디오 삭제
+	public void deleteVideo() {
+		channelVideoList();
+		System.out.print("삭제할 비디오 고르기 : ");
+		int videoCode = Integer.parseInt(sc.nextLine());
+		if(yc.deleteVideo(videoCode)) {
+			System.out.println("비디오 삭제 성공!");
+		} else System.out.println("비디오 삭제 실패...");
+	}
+	
+	// 비디오 전체 목록 보기
+	public void videoAllList() {
+		for(Video video : yc.videoAllList()) {
+			System.out.println(video);
+		}
+	}
+	
+	// 내 채널에 있는 비디오 목록 보기
+	public void channelVideoList() {
+		yc.login("user1", "1234");
+		for(Video video : yc.channelVideoList()) {
+			System.out.println(video);
+		}
+	}
+	
+	// 비디오 한 개 보기 + 댓글들 보기 (좋아요 포함)
+	public void viewVideo() {
+		System.out.print("비디오 선택 : ");
+		int videoCode = Integer.parseInt(sc.nextLine());
+		System.out.println(yc.viewVideo(videoCode));
+		
+		System.out.println("======================================================");
+		
+		for(CommentLike commentLike : yc.videoCommentList(videoCode)) {
+			System.out.println(commentLike);
+		}
+	}
+	
+	public void addSubscribe() {
+		yc.login("user1", "1234");
+		videoAllList();
+		
+		System.out.print("구독할 채널 : ");
+		int select = Integer.parseInt(sc.nextLine());
+		
+		if(yc.addSubscribe(select)) {
+			System.out.println("구독 성공!");
+		} else {
+			System.out.println("구독 실패...");
+		}
+	}
+	
+	// 내가 구독한 채널 목록 보기
+	public void mySubscribeList() {
+		yc.login("user1", "1234");
+		
+		for(Channel channel : yc.mySubscribeList()) {
+			System.out.println(channel.getChannelCode() + " / " + channel.getChannelName());
+		}
+	}
+	
 
 }

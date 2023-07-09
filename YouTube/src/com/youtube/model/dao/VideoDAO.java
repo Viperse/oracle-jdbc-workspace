@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.youtube.model.vo.Category;
+import com.youtube.model.vo.Channel;
 import com.youtube.model.vo.Video;
 
 import config.ServerInfo;
@@ -115,11 +116,14 @@ public class VideoDAO implements VideoDAOTemplate{
 			video.setVideoUrl(rs.getString("video_url"));
 			video.setVideoPhoto(rs.getString("video_photo"));
 			
+			Channel channel = new Channel();
+			channel.setChannelName(rs.getString("channel_name"));
+			video.setChannel(channel);
+			
 			videoList.add(video);
-			closeAll(rs, st, conn);
-			return videoList;
-		}	
-		return null;
+		}
+		closeAll(rs, st, conn);
+		return videoList;
 	}
 
 	@Override
@@ -141,11 +145,15 @@ public class VideoDAO implements VideoDAOTemplate{
 			video.setVideoUrl(rs.getString("video_url"));
 			video.setVideoPhoto(rs.getString("video_photo"));
 			
+			Channel channel = new Channel();
+			channel.setChannelName(rs.getString("channel_name"));
+			video.setChannel(channel);
+			
 			cvList.add(video);
-			closeAll(rs, st, conn);
-			return cvList;
+			
 		}
-		return null;
+		closeAll(rs, st, conn);
+		return cvList;
 	}
 
 	@Override
@@ -165,6 +173,10 @@ public class VideoDAO implements VideoDAOTemplate{
 			video.setVideoDate(rs.getDate("video_date"));
 			video.setVideoUrl(rs.getString("video_url"));
 			video.setVideoPhoto(rs.getString("video_photo"));
+			
+			Channel channel = new Channel();
+			channel.setChannelName(rs.getString("channel_name"));
+			video.setChannel(channel);
 			
 			return video;
 		}

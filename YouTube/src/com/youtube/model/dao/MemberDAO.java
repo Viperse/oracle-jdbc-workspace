@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.youtube.model.vo.Channel;
 import com.youtube.model.vo.Member;
 import com.youtube.model.vo.Subscribe;
 
@@ -92,17 +93,48 @@ public class MemberDAO implements MemberDAOTemplate{
 
 	@Override
 	public int addSubscribe(Subscribe subscribe) throws SQLException {
-		return 0;
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement(p.getProperty("addSubscribe"));
+		
+		st.setString(1, subscribe.getMember().getMemberId());
+		st.setInt(2, subscribe.getChannel().getChannelCode());
+		
+		int result = st.executeUpdate();
+		closeAll(st, conn);
+		
+		return result;
 	}
 
 	@Override
-	public int deleteSubscribe(int SubsCode) throws SQLException {
-		return 0;
+	public int deleteSubscribe(int subsCode) throws SQLException {
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement(p.getProperty("deleteSubscribe"));
+		
+		st.setInt(1, subsCode);
+		
+		int result = st.executeUpdate();
+		closeAll(st, conn);
+		
+		return result;
 	}
 
 	@Override
-	public ArrayList<Subscribe> mySubscribeList(String memberId) throws SQLException {
-		return null;
+	public ArrayList<Channel> mySubscribeList(String memberId) throws SQLException {
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement(p.getProperty("mySubscribeList"));
+		
+		st.setString(1, memberId);
+		
+		ResultSet rs = st.executeQuery();
+		ArrayList<Channel> list = new ArrayList<>();
+		while(rs.next()) {
+			Channel channel = new Channel();
+			channel.setChannelCode(rs.getInt("channel_code"));
+			channel.setChannelName(rs.getString("channel_name"));
+			list.add(channel);
+		}
+		closeAll(rs, st, conn);
+		return list;
 	}
 
 }

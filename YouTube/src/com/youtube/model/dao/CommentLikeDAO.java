@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.youtube.model.vo.CommentLike;
+import com.youtube.model.vo.Member;
 import com.youtube.model.vo.VideoComment;
 import com.youtube.model.vo.VideoLike;
 
@@ -54,42 +55,128 @@ public class CommentLikeDAO implements CommentLikeDAOTemplate{
 
 	@Override
 	public int addLike(VideoLike like) throws SQLException {
-		return 0;
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement("addLike");
+		
+		st.setInt(1, like.getVideo().getVideoCode());
+		st.setString(2, like.getMember().getMemberId());
+		
+		int result = st.executeUpdate();
+		closeAll(st, conn);
+		
+		return result;
 	}
 
 	@Override
 	public int deleteLike(int likeCode) throws SQLException {
-		return 0;
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement("deleteLike");
+		
+		st.setInt(1, likeCode);
+		
+		int result = st.executeUpdate();
+		closeAll(st, conn);
+		
+		
+		return result;
 	}
 
 	@Override
 	public int addComment(VideoComment comment) throws SQLException {
-		return 0;
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement("addComment");
+		
+		st.setString(1, comment.getCommentDesc());
+		st.setInt(2, comment.getVideo().getVideoCode());
+		st.setString(3, comment.getMember().getMemberId());
+		
+		int result = st.executeUpdate();
+		closeAll(st, conn);
+		
+		return result;
 	}
 
 	@Override
 	public int updateComment(VideoComment comment) throws SQLException {
-		return 0;
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement("updateComment");
+		
+		st.setString(1, comment.getCommentDesc());
+		st.setInt(2, comment.getCommentCode());
+		
+		int result = st.executeUpdate();
+		closeAll(st, conn);
+		
+		return result;
 	}
 
 	@Override
-	public int deleteComment(VideoComment comment) throws SQLException {
-		return 0;
+	public int deleteComment(int CommentCode) throws SQLException {
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement("deleteComment");
+		
+		st.setInt(1, CommentCode);
+		
+		int result = st.executeUpdate();
+		closeAll(st, conn);
+		
+		return result;
 	}
 
 	@Override
-	public ArrayList<VideoComment> videoCommentList(int videoCode) throws SQLException {
-		return null;
+	public ArrayList<CommentLike> videoCommentList(int videoCode) throws SQLException {
+		
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement(p.getProperty("videoCommentList"));
+		st.setInt(1, videoCode);
+		
+		ResultSet rs = st.executeQuery();
+		ArrayList<CommentLike> list = new ArrayList<>();
+		while(rs.next()) {
+			CommentLike like = new CommentLike();
+			like.setCommLikeCode(rs.getInt("comm_like_code"));
+			like.setConnLikeDate(rs.getDate("comm_like_date"));
+			
+			VideoComment comment = new VideoComment();
+			comment.setCommentCode(rs.getInt("comment_code"));
+			comment.setCommentDesc(rs.getString("comment_desc"));
+			like.setVideoComment(comment);
+			
+			Member member = new Member();
+			member.setMemberNickname(rs.getString("member_nickname"));
+			like.setMember(member);
+			
+			list.add(like);
+		}
+		closeAll(rs, st, conn);
+		return list;
 	}
 
 	@Override
 	public int addCommentLike(CommentLike like) throws SQLException {
-		return 0;
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement("addCommentLike");
+		
+		st.setInt(1, like.getVideoComment().getCommentCode());
+		st.setString(2, like.getMember().getMemberId());
+		
+		int result = st.executeUpdate();
+		closeAll(st, conn);
+		
+		return result;
 	}
 
 	@Override
-	public int deleteCommentLike(int likeCode) throws SQLException {
-		return 0;
+	public int deleteCommentLike(int commentCodeLike) throws SQLException {	
+		Connection conn = getConnect();
+		PreparedStatement st = conn.prepareStatement("deleteCommentLike");
+		
+		st.setInt(1, commentCodeLike);
+		
+		int result = st.executeUpdate();
+		closeAll(st, conn);
+		
+		return result;
 	}
 
 }

@@ -5,15 +5,15 @@ import java.util.Date;
 public class CommentLike {
 	
 	private int commLikeCode;
-	private Date connLikeDate;
+	private Date commLikeDate;
 	private VideoComment videoComment;
 	private Member member;
 	
 	public CommentLike() {}
 
-	public CommentLike(int commLikeCode, Date connLikeDate, VideoComment videoComment, Member member) {
+	public CommentLike(int commLikeCode, Date commLikeDate, VideoComment videoComment, Member member) {
 		this.commLikeCode = commLikeCode;
-		this.connLikeDate = connLikeDate;
+		this.commLikeDate = commLikeDate;
 		this.videoComment = videoComment;
 		this.member = member;
 	}
@@ -27,11 +27,11 @@ public class CommentLike {
 	}
 
 	public Date getConnLikeDate() {
-		return connLikeDate;
+		return commLikeDate;
 	}
 
-	public void setConnLikeDate(Date connLikeDate) {
-		this.connLikeDate = connLikeDate;
+	public void setConnLikeDate(Date commLikeDate) {
+		this.commLikeDate = commLikeDate;
 	}
 
 	public VideoComment getVideoComment() {
@@ -52,7 +52,7 @@ public class CommentLike {
 
 	@Override
 	public String toString() {
-		return "CommentLike [commLikeCode=" + commLikeCode + ", connLikeDate=" + connLikeDate + ", videoComment="
+		return "CommentLike [commLikeCode=" + commLikeCode + ", commLikeDate=" + commLikeDate + ", videoComment="
 				+ videoComment + ", member=" + member + "]";
 	}
 	
